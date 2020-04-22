@@ -1,4 +1,5 @@
 Vagrant.configure("2") do |config|
+    server_ip = "192.168.10.30"
     config.vm.provider "virtualbox" do |vb|
 	vb.memory = 1024
     	vb.cpus = 1
@@ -6,7 +7,7 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.box = "ubuntu/bionic64"
-    config.vm.network "public_network", ip: "192.168.10.30"
+    config.vm.network "public_network", ip: "#{server_ip}"
     config.vm.synced_folder "./config", "/configs"
     #config.vm.synced_folder ".", "/vagrant", disabled: true
 
@@ -25,7 +26,7 @@ Vagrant.configure("2") do |config|
 				echo 'mongodb-org-shell hold' | sudo dpkg --set-selections && \
 				echo 'mongodb-org-mongos hold' | sudo dpkg --set-selections && \
 				echo 'mongodb-org-tools hold' | sudo dpkg --set-selections && \
-				sudo sed -i 's/127.0.0.1/192.168.10.30/g' /etc/mongod.conf && \ 
+				sudo sed -i 's/127.0.0.1/#{server_ip}/g' /etc/mongod.conf && \ 
 				sudo systemctl enable mongod && \
 				sudo systemctl start mongod"
 end
